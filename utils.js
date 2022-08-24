@@ -62,11 +62,11 @@ let findPackageVersionByTag = async function (octokit, owner, name, tag) {
     }
   }
 
-  // throw new Error(
-  //   `package with tag '${tag}' does not exits, available tags: ${Array.from(
-  //     tags
-  //   ).join(", ")}`
-  // );
+  throw new Error(
+    `package with tag '${tag}' does not exits, available tags: ${Array.from(
+      tags
+    ).join(", ")}`
+  );
 };
 
 let findPackageVersionsUntaggedOrderGreaterThan = async function (
