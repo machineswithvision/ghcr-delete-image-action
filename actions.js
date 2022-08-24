@@ -11,6 +11,11 @@ async function deleteByTag(config, octokit) {
     config.tag
   );
 
+  if (packageVersion === null) {
+    core.info(`🆔 package version with tag ${config.tag} does not exits`);
+    return;
+  }
+
   core.info(`🆔 package id is #${packageVersion.id}, delete it...`);
 
   await utils.deletePackageVersion(
