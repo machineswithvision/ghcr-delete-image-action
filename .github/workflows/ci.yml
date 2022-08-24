@@ -11,7 +11,7 @@ jobs:
   test-code:
     name: Test Code
     env:
-      INTEGRATION_TEST_TOKEN: ${{ secrets.GCR_TOKEN }}
+      INTEGRATION_TEST_TOKEN: ${{ secrets.MWVAUTO_GITHUB_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -78,7 +78,7 @@ jobs:
         with:
           owner: bots-house
           name: ghcr-delete-image-dummy
-          token: ${{ secrets.GCR_TOKEN }}
+          token: ${{ secrets.MWVAUTO_GITHUB_TOKEN }}
           untagged-keep-latest: 1
 
   test-actions-delete-by-tag:
@@ -111,5 +111,5 @@ jobs:
         with:
           owner: bots-house
           name: ghcr-delete-image-dummy
-          token: ${{ secrets.GCR_TOKEN }}
+          token: ${{ secrets.MWVAUTO_GITHUB_TOKEN }}
           tag: ${{ github.run_number }}
