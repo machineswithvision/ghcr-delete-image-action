@@ -17,7 +17,7 @@ async function deleteByTag(config, octokit) {
     config.tag
   );
 
-  if (packageVersion === 'undefined') {
+  if (typeof packageVersion === 'undefined') {
     core.info(`🆔 package version with tag ${config.tag} does not exits`);
     return;
   }
