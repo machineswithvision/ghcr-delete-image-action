@@ -109,7 +109,7 @@ jobs:
 
       - uses: ./
         with:
-          owner: bots-house
+          owner: machineswithvision
           name: ghcr-delete-image-dummy
           token: ${{ secrets.MWVAUTO_GITHUB_TOKEN }}
           tag: ${{ github.run_number }}
