@@ -17,6 +17,11 @@ async function deleteByTag(config, octokit) {
     config.tag
   );
 
+  if (packageVersion === 'undefined') {
+    core.info(`🆔 package version with tag ${config.tag} does not exits`);
+    return;
+  }
+
   core.info(`🆔 package id is #${packageVersion.id}, delete it...`);
 
   await utils.deletePackageVersion(
@@ -6076,11 +6081,11 @@ let findPackageVersionByTag = async function (octokit, owner, name, tag) {
     }
   }
 
-  throw new Error(
-    `package with tag '${tag}' does not exits, available tags: ${Array.from(
-      tags
-    ).join(", ")}`
-  );
+  // throw new Error(
+  //   `package with tag '${tag}' does not exits, available tags: ${Array.from(
+  //     tags
+  //   ).join(", ")}`
+  // );
 };
 
 let findPackageVersionsUntaggedOrderGreaterThan = async function (
