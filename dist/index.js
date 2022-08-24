@@ -17,7 +17,7 @@ async function deleteByTag(config, octokit) {
     config.tag
   );
 
-  if (packageVersion === undefined) {
+  if (packageVersion === null) {
     core.info(`🆔 package version with tag ${config.tag} does not exits`);
     return;
   }
@@ -6080,6 +6080,8 @@ let findPackageVersionByTag = async function (octokit, owner, name, tag) {
       });
     }
   }
+
+  return null;
 
   // throw new Error(
   //   `package with tag '${tag}' does not exits, available tags: ${Array.from(
