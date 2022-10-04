@@ -12,7 +12,7 @@ async function deleteByTag(config, octokit) {
   );
 
   if (packageVersion === null) {
-    core.info(`🆔 package version with tag ${config.tag} does not exits`);
+    core.info(`🆔 package version with tag ${config.tag} does not exist`);
     return;
   }
 
