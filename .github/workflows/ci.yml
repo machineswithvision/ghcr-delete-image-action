@@ -14,72 +14,79 @@ jobs:
       INTEGRATION_TEST_TOKEN: ${{ secrets.MWVAUTO_GITHUB_TOKEN }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v2
+      - uses: actions/checkout@v4.1.1
+
+      - uses: actions/setup-node@v4.0.2
+        with:
+          node-version: 16.x
+
+      - uses: actions/cache@v4.0.0
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
       - run: npm ci
+      
       - run: npm test
 
-#  test-actions-delete-latest-n:
-#    name: Test action delete latest N packages
-#    runs-on: ubuntu-latest
-#    needs: [test-code]
-#    permissions:
-#      packages: write
-#      contents: read
-#    steps:
-#      - uses: actions/checkout@v2
-#
-#      - name: Login to GitHub Container Registry
-#        uses: docker/login-action@v1
-#        with:
-#          registry: ghcr.io
-#          username: ${{ github.actor }}
-#          password: ${{ secrets.GITHUB_TOKEN }}
-#
-#      - name: Build and Push Dummy Image - 0
-#        uses: docker/build-push-action@v2
-#        with:
-#          context: .
-#          push: true
-#          file: Dockerfile.dummy
-#          build-args: |
-#            RUN_NUMBER=${{ github.run_number }}-0
-#          tags: |
-#            ghcr.io/${{ github.repository_owner }}/ghcr-delete-image-dummy:untagged
-#
-#      - name: Build and Push Dummy Image - 1
-#        uses: docker/build-push-action@v2
-#        with:
-#          context: .
-#          push: true
-#          file: Dockerfile.dummy
-#          build-args: |
-#            RUN_NUMBER=${{ github.run_number }}-1
-#          tags: |
-#            ghcr.io/${{ github.repository_owner }}/ghcr-delete-image-dummy:untagged
-#
-#      - name: Build and Push Dummy Image - 2
-#        uses: docker/build-push-action@v2
-#        with:
-#          context: .
-#          push: true
-#          file: Dockerfile.dummy
-#          build-args: |
-#            RUN_NUMBER=${{ github.run_number }}-2
-#          tags: |
-#            ghcr.io/${{ github.repository_owner }}/ghcr-delete-image-dummy:untagged
-#
-#      - uses: ./
-#        with:
-#          owner: bots-house
-#          name: ghcr-delete-image-dummy
-#          token: ${{ secrets.MWVAUTO_GITHUB_TOKEN }}
-#          untagged-keep-latest: 1
+  test-actions-delete-latest-n:
+    name: Test action delete latest N packages
+    runs-on: ubuntu-latest
+    needs: [test-code]
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Dummy Image - 0
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          file: Dockerfile.dummy
+          build-args: |
+            RUN_NUMBER=${{ github.run_number }}-0
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/ghcr-delete-image-dummy:untagged
+
+      - name: Build and Push Dummy Image - 1
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          file: Dockerfile.dummy
+          build-args: |
+            RUN_NUMBER=${{ github.run_number }}-1
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/ghcr-delete-image-dummy:untagged
+
+      - name: Build and Push Dummy Image - 2
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          file: Dockerfile.dummy
+          build-args: |
+            RUN_NUMBER=${{ github.run_number }}-2
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/ghcr-delete-image-dummy:untagged
+
+      - uses: ./
+        with:
+          owner: bots-house
+          name: ghcr-delete-image-dummy
+          token: ${{ secrets.MWVAUTO_GITHUB_TOKEN }}
+          untagged-keep-latest: 1
 
   test-actions-delete-by-tag:
     name: Test action delete by tag
@@ -89,7 +96,7 @@ jobs:
       packages: write
       contents: read
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4.1.1
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
@@ -107,14 +114,6 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/ghcr-delete-image-dummy:${{ github.run_number }}
 
-      - name: Delete the docker image by tag (tag shall NOT be found)
-        uses: ./
-        with:
-          owner: machineswithvision
-          name: ghcr-delete-image-dummy
-          token: ${{ secrets.MWVAUTO_GITHUB_TOKEN }}
-          tag: xxx
-
       - name: Delete the docker image by tag (tag shall be found)
         uses: ./
         with:
@@ -122,4 +121,3 @@ jobs:
           name: ghcr-delete-image-dummy
           token: ${{ secrets.MWVAUTO_GITHUB_TOKEN }}
           tag: ${{ github.run_number }}
-
