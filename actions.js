@@ -11,11 +11,6 @@ async function deleteByTag(config, octokit) {
     config.tag
   );
 
-  if (packageVersion === null) {
-    core.info(`🆔 package version with tag ${config.tag} does not exits`);
-    return;
-  }
-
   core.info(`🆔 package id is #${packageVersion.id}, delete it...`);
 
   await utils.deletePackageVersion(
@@ -41,12 +36,18 @@ async function deleteUntaggedOrderGreaterThan(config, octokit) {
   core.startGroup(`🗑 delete ${pkgs.length} packages`);
 
   for (const pkg of pkgs) {
-    await utils.deletePackageVersion(
-      octokit,
-      config.owner,
-      config.name,
-      pkg.id
-    );
+    try {
+      await utils.deletePackageVersion(
+        octokit,
+        config.owner,
+        config.name,
+        pkg.id
+      );
+    } catch (error) {
+      core.info(`⚠️ package #${pkg.id} not deleted: ${error.message}`);
+      continue;
+    }
+
 
     core.info(`✅ package #${pkg.id} deleted.`);
   }
