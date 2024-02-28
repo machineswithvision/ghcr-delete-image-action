@@ -126,7 +126,7 @@ describe("findPackageVersionByTag", () => {
         "docker-telegram-bot-api",
         "test"
       )
-    ).toBeNull();
+    ).toBe({});
   });
 });
 
@@ -156,6 +156,6 @@ describe("findPackageVersionsUntaggedOrderGreaterThan", () => {
          "docker-telegram-bot-api",
          "test"
        )
-     ).toBeNull();
+     ).toBe({});
    });
 });
