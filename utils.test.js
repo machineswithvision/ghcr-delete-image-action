@@ -118,16 +118,16 @@ describe("findPackageVersionByTag", () => {
     expect(packageVersion.id).toBe(266441);
   }, 15000);
 
-//  test("not existing version throw error", () => {
-//    return expect(
-//      utils.findPackageVersionByTag(
-//        octokit,
-//        "bots-house",
-//        "docker-telegram-bot-api",
-//        "test"
-//      )
-//    ).rejects.toThrow(new RegExp("package with tag"));
-//  });
+  test("not existing version return null", () => {
+    return expect(
+      utils.findPackageVersionByTag(
+        octokit,
+        "bots-house",
+        "docker-telegram-bot-api",
+        "test"
+      )
+    ).toBeNull();
+  });
 });
 
 describe("findPackageVersionsUntaggedOrderGreaterThan", () => {
@@ -148,14 +148,14 @@ describe("findPackageVersionsUntaggedOrderGreaterThan", () => {
     // expect(packageVersion.id).toBe(266441);
   }, 15000);
 
-  // test("not existing version throw error", () => {
-  //   return expect(
-  //     utils.findPackageVersionByTag(
-  //       octokit,
-  //       "bots-house",
-  //       "docker-telegram-bot-api",
-  //       "test"
-  //     )
-  //   ).rejects.toThrow(new RegExp("package with tag"));
-  // });
+   test("not existing version return null", () => {
+     return expect(
+       utils.findPackageVersionByTag(
+         octokit,
+         "bots-house",
+         "docker-telegram-bot-api",
+         "test"
+       )
+     ).toBeNull();
+   });
 });
