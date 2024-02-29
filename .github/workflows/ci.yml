@@ -121,3 +121,11 @@ jobs:
           name: ghcr-delete-image-dummy
           token: ${{ secrets.MWVAUTO_GITHUB_TOKEN }}
           tag: ${{ github.run_number }}
+
+      - name: Delete the docker image by tag (tag shall NOT be found)
+        uses: ./
+        with:
+          owner: machineswithvision
+          name: ghcr-delete-image-dummy
+          token: ${{ secrets.MWVAUTO_GITHUB_TOKEN }}
+          tag: xxx
