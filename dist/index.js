@@ -10349,7 +10349,7 @@ let findPackageVersionByTag = async function (octokit, owner, name, tag) {
     }
   }
 
-  return null;
+  return [];
 
 //  throw new Error(
 //    `package with tag '${tag}' does not exist, available tags: ${Array.from(
